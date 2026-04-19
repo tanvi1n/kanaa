@@ -39,7 +39,10 @@ app.post('/api/ask', async (req, res) => {
 
     // Get AI response from Groq
     const completion = await groq.chat.completions.create({
-      messages: [{ role: 'user', content: question }],
+      messages: [
+        { role: 'system', content: 'You are a helpful assistant. Provide concise, direct answers.' },
+        { role: 'user', content: question }
+      ],
       model: 'llama-3.1-8b-instant',
     });
 

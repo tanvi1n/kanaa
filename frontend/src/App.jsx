@@ -51,7 +51,7 @@ function App() {
       {answer && (
         <div className="answer-box">
           <h3>Answer:</h3>
-          <p>{answer}</p>
+          <p style={{ whiteSpace: 'pre-wrap' }}>{answer}</p>
         </div>
       )}
     </div>
