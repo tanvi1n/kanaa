@@ -12,10 +12,13 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+let isConnected = false;
 
+const connectDB = async () => {
+  if (isConnected) return;
+  await mongoose.connect(process.env.MONGODB_URI);
+  isConnected = true;
+};
 // MongoDB Schema
 const conversationSchema = new mongoose.Schema({
   question: { type: String, required: true },
@@ -31,6 +34,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 // API Endpoint
 app.post('/api/ask', async (req, res) => {
   try {
+    await connectDB();
     const { question } = req.body;
 
     if (!question) {
